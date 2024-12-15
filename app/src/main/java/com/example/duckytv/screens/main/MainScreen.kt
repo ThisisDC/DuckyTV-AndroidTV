@@ -1,6 +1,8 @@
 package com.example.duckytv.screens.main
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,12 +21,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.foundation.lazy.list.items
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import com.example.duckytv.R
 import com.example.duckytv.components.ChannelCard
@@ -34,6 +39,7 @@ import com.example.duckytv.data.DataOrException
 import com.example.duckytv.models.Channel
 import com.example.duckytv.navigation.AppScreens
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -54,7 +60,7 @@ fun MainScreen(
     }
 
 
-
+    Surface(modifier = Modifier.fillMaxSize()) {
     if(channelsData.loading == true){
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -91,4 +97,5 @@ fun MainScreen(
     }else{
         Text(text = "No channel found.")
     }
+}
 }
