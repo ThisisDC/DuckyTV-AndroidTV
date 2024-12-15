@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -33,12 +34,22 @@ import androidx.tv.material3.Text
 import com.example.duckytv.utils.Constants
 
 @Composable
+fun KeepScreenOn() {
+    val currentView = LocalView.current
+    DisposableEffect(Unit) {
+        currentView.keepScreenOn = true
+        onDispose {
+            currentView.keepScreenOn = false
+        }
+    }
+}
+
+
+@Composable
 fun PlayerScreen(navController: NavController, channelId: String?){
     val mediaUrl = "${Constants.BASE_URL}/play/$channelId/index.m3u8"
 
-    Row {
-        Text(text = "Back", fontSize = 20.sp)
-    }
+    KeepScreenOn()
     PlayerScreenContent(mediaUrl = mediaUrl,
         onBackPressed = {
             navController.popBackStack()
@@ -78,6 +89,7 @@ fun PlayerScreenContent(modifier: Modifier = Modifier, mediaUrl: String, onBackP
 
             }
         }
+
 
         val lifecycleOwner = LocalLifecycleOwner.current
         DisposableEffect(key1 = lifecycleOwner) {
